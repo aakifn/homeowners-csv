@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class Person implements \JsonSerializable
+class Person implements \JsonSerializable, \ArrayAccess
 {
 	private ?string $title = null;
 	private ?string $lastName = null;
@@ -57,5 +57,34 @@ class Person implements \JsonSerializable
 			'firstName' => $this->firstName,
 			'lastName' => $this->lastName
 		];
+	}
+
+	public function offsetExists(mixed $offset): bool
+	{
+		return $this->offsetGet($offset) !== null;
+	}
+
+	public function offsetGet(mixed $offset): ?string
+	{
+		switch ($offset)
+		{
+			case 'title': return $this->title;
+			case 'firstName': return $this->firstName;
+			case 'lastName': return $this->lastName;
+			case 'initial': return $this->initial;
+
+			default:
+				trigger_error("Unknown offset '$offset'");
+		}
+	}
+
+	public function offsetSet(mixed $offset, mixed $value): void
+	{
+		throw new \LogicException("Cannot set offsets");
+	}
+
+	public function offsetUnset(mixed $offset): void
+	{
+		throw new \LogicException("Cannot set offsets");
 	}
 }

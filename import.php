@@ -55,7 +55,7 @@ catch (Exception $e)
 
 try
 {
-	$output = json_encode($homeowners, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT);
+	$output = json_encode($homeowners, JSON_THROW_ON_ERROR);
 }
 catch (Exception $e)
 {
@@ -63,4 +63,4 @@ catch (Exception $e)
 	exit(1);
 }
 
-echo $output . PHP_EOL;
+print_r(json_decode($output, true)) . PHP_EOL;
